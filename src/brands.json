@@ -1,0 +1,45 @@
+{
+	"brands": [
+		{
+			"name": "Nissan",
+			"models": [
+				{
+					"model": "Patrol",
+					"years": [
+						"2014",
+						"2015",
+						"2016",
+						"2017"
+					]
+				},
+				{
+					"model": "GT-R",
+					"years": [
+						"2013",
+						"2020"
+					]
+				}
+			]
+		},
+		{
+			"name": "Toyota",
+			"models": [
+				{
+					"model": "Supra",
+					"years": [
+						"2014",
+						"2016",
+						"2020"
+					]
+				},
+				{
+					"model": "Land Cruiser",
+					"years": [
+						"2017",
+						"2021"
+					]
+				}
+			]
+		}
+	]
+}

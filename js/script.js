@@ -16,12 +16,52 @@ ib();
 /* Selects */
 
 $(document).ready(function() {
+	let choseBrand = null;
+	let choseModel = null;
+
 	const selectBrand = $('.header__tabs-brand').select2({
+		ajax: {
+			url: '../src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
+			dataType: 'json',
+			type: 'GET',
+			processResults: function (data) {
+			// Подгружаем марки
+				return {
+					results: $.map(data.brands, function(brand) {
+						return {
+							text: brand.name,
+							id: brand.name.toLowerCase()
+						};
+					})
+				};
+			}
+		},
 		placeholder: "Choose Car Brand",
 		allowClear: true,
 	});
 
 	const selectModel = $('.header__tabs-model').select2({
+		ajax: {
+			url: '../src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
+			dataType: 'json',
+			type: 'GET',
+			processResults: function (data) {
+				// Подгружаем модели, в соответствии с выбранной маркой
+				if (choseBrand) {
+					const brandModels = $.map(data.brands, brand => {
+						if (brand.name.toLowerCase() === choseBrand.toLowerCase()) return brand.models;
+					});
+					return {
+						results: $.map(brandModels, function(model) {
+							return {
+								text: model.model,
+								id: model.model.toLowerCase()
+							};
+						})
+					};
+				}
+			}
+		},
 		placeholder: "Choose Model",
 		allowClear: true,
 	});
@@ -29,19 +69,62 @@ $(document).ready(function() {
 	const selectYear = $('.header__tabs-year').select2({
 		placeholder: "Choose Year",
 		allowClear: true,
+		ajax: {
+			url: '../src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
+			dataType: 'json',
+			type: 'GET',
+			processResults: function (data) {
+				// Подгружаем года, в соответствии с выбранной моделью
+				if (choseModel) {
+					const modelsYears = $.map(data.brands, brand => {
+						if (brand.name.toLowerCase() === choseBrand.toLowerCase()) {
+							return $.map(brand.models, model => {
+								if (model.model.toLowerCase() === choseModel.toLowerCase()) return model.years;
+							});
+						};
+					});
+					return {
+						results: $.map(modelsYears, function(year) {
+							return {
+								text: year,
+								id: year.toLowerCase()
+							};
+						})
+					};
+				}
+			}
+		}
 	});
 
 	selectBrand.on('change', function(e) {
 		if (selectBrand.val()) {
-			// Скорее всего, здесь нужно подгружать модели и года, конечно же в соответствии с выбранной маркой
-
-			// Включаем возможность выбрать модель или год когда выбрана марка
+			choseBrand = selectBrand.val();
+			// Включаем возможность выбрать модель когда выбрана марка
 			selectModel.prop("disabled", false);
-			selectYear.prop("disabled", false);
 		} else {
-			// Отключаем возможность выбрать модель или год если не выбрана марка
+			choseBrand = null;
+			// Читстим поля
+			selectModel.val(null).trigger('change');
+			selectYear.val(null).trigger('change');
+			// Отключаем возможность выбрать модель и год если не выбрана марка
 			selectModel.prop("disabled", true);
 			selectYear.prop("disabled", true);
+		}
+	});
+
+	selectModel.on('change', function(e) {
+		if (selectBrand.val()) {
+			if (selectModel.val()) {
+				choseModel = selectModel.val();
+				// Включаем возможность выбрать год когда выбрана модель
+				selectYear.prop("disabled", false);
+			} else {
+				choseModel = null;
+				// Читстим поле
+				selectYear.val(null).trigger('change');
+				// Отключаем возможность выбрать год когда не выбрана модель
+				selectYear.prop("disabled", true);
+			}
 		}
 	});
 
