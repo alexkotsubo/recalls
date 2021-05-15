@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 	const selectBrand = $('.header__tabs-brand').select2({
 		ajax: {
-			url: '../src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
+			url: 'https://alexkotsubo.github.io/recalls/src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
 			dataType: 'json',
 			type: 'GET',
 			processResults: function (data) {
@@ -42,7 +42,7 @@ $(document).ready(function() {
 
 	const selectModel = $('.header__tabs-model').select2({
 		ajax: {
-			url: '../src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
+			url: 'https://alexkotsubo.github.io/recalls/src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
 			dataType: 'json',
 			type: 'GET',
 			processResults: function (data) {
@@ -70,7 +70,7 @@ $(document).ready(function() {
 		placeholder: "Choose Year",
 		allowClear: true,
 		ajax: {
-			url: '../src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
+			url: 'https://alexkotsubo.github.io/recalls/src/brands.json', // Сюда ставим URL где лежат наши данные, их пример в файле brands.json (удалите его когда сделаете свои запросы)
 			dataType: 'json',
 			type: 'GET',
 			processResults: function (data) {
